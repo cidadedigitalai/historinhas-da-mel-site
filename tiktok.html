@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Historinhas da Mel · TikTok conectado</title>
+<style>
+  body{margin:0;font-family:system-ui,sans-serif;background:#fff7e6;color:#4a2b5c;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:16px}
+  .card{background:#fff;border-radius:20px;padding:28px;max-width:520px;width:100%;box-shadow:0 6px 24px rgba(0,0,0,.08);text-align:center}
+  h1{font-size:24px;margin:.2em 0}
+  code{display:block;word-break:break-all;background:#f4eefa;border-radius:10px;padding:12px;margin:14px 0;font-size:13px}
+  button{background:#ff6f91;color:#fff;border:0;border-radius:999px;padding:12px 22px;font-size:16px;cursor:pointer}
+  .erro{color:#c0392b}
+</style>
+</head>
+<body>
+<div class="card">
+  <div style="font-size:48px">🐑</div>
+  <h1 id="titulo">Conta do TikTok conectada!</h1>
+  <p id="texto">O app <b>Historinhas da Mel Publicador</b> foi autorizado. Copie o código abaixo e envie para quem está configurando a publicação automática.</p>
+  <code id="codigo"></code>
+  <button id="copiar">Copiar código</button>
+</div>
+<script>
+  const p = new URLSearchParams(location.search);
+  const code = p.get('code'), erro = p.get('error_description') || p.get('error');
+  if (erro) {
+    document.getElementById('titulo').textContent = 'Não foi autorizado';
+    document.getElementById('texto').innerHTML = '<span class="erro">' + erro.replace(/</g,'&lt;') + '</span>';
+    document.getElementById('codigo').style.display = 'none';
+    document.getElementById('copiar').style.display = 'none';
+  } else if (code) {
+    document.getElementById('codigo').textContent = code;
+  } else {
+    document.getElementById('titulo').textContent = 'Historinhas da Mel';
+    document.getElementById('texto').textContent = 'Página de retorno do login do TikTok.';
+    document.getElementById('codigo').style.display = 'none';
+    document.getElementById('copiar').style.display = 'none';
+  }
+  document.getElementById('copiar').onclick = () => navigator.clipboard.writeText(code).then(() => {
+    document.getElementById('copiar').textContent = 'Copiado ✓';
+  });
+</script>
+</body>
+</html>
